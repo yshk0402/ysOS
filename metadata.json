@@ -1,0 +1,5 @@
+{
+  "name": "Win95 React OS",
+  "description": "A fully functional Windows 95 style desktop environment built with React and Tailwind CSS, featuring a Gemini-powered AI assistant.",
+  "requestFramePermissions": []
+}
