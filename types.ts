@@ -1,9 +1,13 @@
+import React from 'react';
+
 export enum AppId {
   MY_COMPUTER = 'my_computer',
   DOCUMENTS = 'documents',
   NETWORK = 'network',
   NOTEPAD = 'notepad',
   SETTINGS = 'settings',
+  CALCULATOR = 'calculator',
+  YSCODE = 'yscode',
 }
 
 export interface WindowState {
