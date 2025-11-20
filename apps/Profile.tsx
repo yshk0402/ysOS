@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button95 } from '../components/SystemUI';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ProfileProps {
     onOpenDocuments: () => void;
@@ -10,6 +11,8 @@ interface ProfileProps {
 
 export const Profile: React.FC<ProfileProps> = ({ onOpenDocuments, onOpenNetwork, onOpenContact }) => {
     const { t } = useLanguage();
+    const { theme } = useTheme();
+    const isMac = theme === 'macos';
 
     const renderBioContent = () => {
         const raw = t('profile.bio_text');
@@ -17,10 +20,10 @@ export const Profile: React.FC<ProfileProps> = ({ onOpenDocuments, onOpenNetwork
         return tokens.map((token, idx) => {
             if (token === '{documents}') {
                 return (
-                    <button 
+                    <button
                         key={`doc-${idx}`}
-                        type="button" 
-                        className="text-blue-700 underline hover:opacity-80"
+                        type="button"
+                        className="text-blue-600 hover:underline"
                         onClick={onOpenDocuments}
                     >
                         {t('desktop.documents')}
@@ -29,10 +32,10 @@ export const Profile: React.FC<ProfileProps> = ({ onOpenDocuments, onOpenNetwork
             }
             if (token === '{network}') {
                 return (
-                    <button 
+                    <button
                         key={`network-${idx}`}
-                        type="button" 
-                        className="text-blue-700 underline hover:opacity-80"
+                        type="button"
+                        className="text-blue-600 hover:underline"
                         onClick={onOpenNetwork}
                     >
                         {t('desktop.network')}
@@ -43,14 +46,53 @@ export const Profile: React.FC<ProfileProps> = ({ onOpenDocuments, onOpenNetwork
         });
     };
 
+    if (isMac) {
+        return (
+            <div className="flex flex-col h-full bg-gray-50 p-6 text-sm font-sans">
+                <div className="flex flex-col items-center mb-6">
+                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg mb-4">
+                        <img
+                            src="/icons/user.png"
+                            alt={t('profile.user')}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    <h2 className="font-bold text-2xl text-gray-800">YSato</h2>
+                    <p className="text-gray-500">SoloDev</p>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                    <div className="grid grid-cols-[100px_1fr] gap-y-2 text-sm">
+                        <div className="text-gray-500 font-medium text-right pr-4">{t('profile.location')}</div>
+                        <div className="text-gray-800">Japan, Tokyo</div>
+                        <div className="text-gray-500 font-medium text-right pr-4">{t('profile.computer')}</div>
+                        <div className="text-gray-800">MacBook Pro (M3 Max)</div>
+                        <div className="text-gray-500 font-medium text-right pr-4">{t('profile.language')}</div>
+                        <div className="text-gray-800">Japanese / English</div>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex-1 overflow-auto">
+                    <h3 className="font-bold text-gray-800 mb-2">{t('profile.bio')}</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                        {renderBioContent()}
+                    </p>
+                </div>
+                <div className="mt-4 flex justify-center">
+                    <Button95 onClick={onOpenContact} className="w-full max-w-xs">{t('profile.contact')}</Button95>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col h-full bg-[#c0c0c0] p-2 text-sm">
             <div className="bg-white border border-gray-400 p-4 flex gap-6 h-full shadow-[inset_1px_1px_0px_0px_rgba(0,0,0,1)]">
                 <div className="flex flex-col items-center gap-4 w-1/3 border-r border-gray-200 pr-4">
                     <div className="w-24 h-24 bg-gray-200 border-2 border-gray-400 flex items-center justify-center">
-                        <img 
-                            src="/icons/user.png" 
-                            alt={t('profile.user')} 
+                        <img
+                            src="/icons/user.png"
+                            alt={t('profile.user')}
                             className="w-16 h-16 pixelated"
                         />
                     </div>
